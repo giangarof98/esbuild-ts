@@ -53,6 +53,13 @@ const App = () => {
 
             //console.log(res)
             setCode(res.outputFiles[0].text);
+
+            try{
+                eval(res.outputFiles[0].text);
+            } catch(e){
+                alert(e)
+            }
+
         // }catch(err){
         //     console.error(err);
         // }
@@ -65,6 +72,7 @@ const App = () => {
                     <button onClick={onClick}>Submit</button>
                 </div>
                 <pre>{code}</pre>
+                <iframe sandbox='allow-same-origin' src="/test.html"></iframe>
             </div>
 };
 
