@@ -13,7 +13,7 @@ const App = () => {
         try{
             ref.current = await esbuild.initialize({
                 worker: true,
-                wasmURL: '/esbuild.wasm'
+                wasmURL: 'https://unpkg.com/esbuild-wasm/esbuild.wasm'
             })
         } catch(e){
             console.error(e)
