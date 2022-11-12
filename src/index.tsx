@@ -8,7 +8,7 @@ const App = () => {
     const ref = useRef<any>();
     const iframe = useRef<any>();
     const [input, setInput] = useState('');
-    const [code, setCode] = useState('');
+    //const [code, setCode] = useState('');
 
     const startService = async() => {
         try{
@@ -26,9 +26,11 @@ const App = () => {
     }, [])
 
     const onClick = async () => {
-        // if(!ref.current){
-        //     return
-        // }
+        if(!ref.current){
+            return
+        }
+
+        iframe.current.srcdoc = html;
 
         //try{
             // const res = await esbuild.transform(input, {
@@ -72,7 +74,14 @@ const App = () => {
                 <div id="root"></div>
                 <script>
                     window.addEventListener('message', (e) => {
-                        eval(e.data)
+                        try{
+                            eval(e.data)
+
+                        }catch(err){
+                            const root = document.getElementById('root');
+                            root.innerHTML = '<div style="color:red;"> <h4>RunTime Error</h4>' + err + '</div>'
+                            console.error(err)
+                        }
                     }, false)
                 </script>
             </body>
@@ -85,8 +94,8 @@ const App = () => {
                 <div>
                     <button onClick={onClick}>Submit</button>
                 </div>
-                <pre>{code}</pre>
-                <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html}></iframe>
+                {/* <pre>{code}</pre> */}
+                <iframe title='preview' ref={iframe} sandbox='allow-scripts' srcDoc={html}></iframe>
             </div>
 };
 
