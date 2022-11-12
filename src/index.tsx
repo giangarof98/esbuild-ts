@@ -5,7 +5,8 @@ import { fetchPlugin } from './plugins/fetch-plugin';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 
 const App = () => {
-    const ref = useRef<any>()
+    const ref = useRef<any>();
+    const iframe = useRef<any>();
     const [input, setInput] = useState('');
     const [code, setCode] = useState('');
 
@@ -49,16 +50,13 @@ const App = () => {
                     global: 'window',
                 }
 
-            })
+            });
 
-            //console.log(res)
-            setCode(res.outputFiles[0].text);
+            iframe.current.contentWindow.postMessage(res.outputFiles[0].text, '*');
 
-            try{
-                eval(res.outputFiles[0].text);
-            } catch(e){
-                alert(e)
-            }
+            //setCode(res.outputFiles[0].text);
+
+            
 
         // }catch(err){
         //     console.error(err);
@@ -66,13 +64,29 @@ const App = () => {
     
     }
 
+    const html = `
+
+        <html>
+            <head></head>
+            <body>
+                <div id="root"></div>
+                <script>
+                    window.addEventListener('message', (e) => {
+                        eval(e.data)
+                    }, false)
+                </script>
+            </body>
+        </html>
+
+    `;
+
     return <div>
                 <textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
                 <div>
                     <button onClick={onClick}>Submit</button>
                 </div>
                 <pre>{code}</pre>
-                <iframe sandbox='allow-same-origin' src="/test.html"></iframe>
+                <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html}></iframe>
             </div>
 };
 
