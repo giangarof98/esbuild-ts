@@ -26,18 +26,13 @@ const App = () => {
     }, [])
 
     const onClick = async () => {
-        if(!ref.current){
-            return
-        }
+        
+        // if(!ref.current){
+        //     return
+        // }
 
         iframe.current.srcdoc = html;
 
-        //try{
-            // const res = await esbuild.transform(input, {
-            //     loader: 'jsx', 
-            //       target: 'es2015'
-            
-            // });
             const res = await esbuild.build({
                 entryPoints: ['index.js'],
                 bundle: true,
@@ -55,14 +50,6 @@ const App = () => {
             });
 
             iframe.current.contentWindow.postMessage(res.outputFiles[0].text, '*');
-
-            //setCode(res.outputFiles[0].text);
-
-            
-
-        // }catch(err){
-        //     console.error(err);
-        // }
     
     }
 
@@ -94,7 +81,6 @@ const App = () => {
                 <div>
                     <button onClick={onClick}>Submit</button>
                 </div>
-                {/* <pre>{code}</pre> */}
                 <iframe title='preview' ref={iframe} sandbox='allow-scripts' srcDoc={html}></iframe>
             </div>
 };
