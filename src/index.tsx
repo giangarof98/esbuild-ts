@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { fetchPlugin } from './plugins/fetch-plugin';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 
+import CodeEditor from './components/code-editor';
+
 const App = () => {
     const ref = useRef<any>();
     const iframe = useRef<any>();
@@ -77,6 +79,7 @@ const App = () => {
     `;
 
     return <div>
+        <CodeEditor/>
                 <textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
                 <div>
                     <button onClick={onClick}>Submit</button>
