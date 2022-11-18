@@ -10,7 +10,6 @@ const App = () => {
     const ref = useRef<any>();
     const iframe = useRef<any>();
     const [input, setInput] = useState('');
-    //const [code, setCode] = useState('');
 
     const startService = async() => {
         try{
@@ -28,10 +27,6 @@ const App = () => {
     }, [])
 
     const onClick = async () => {
-        
-        // if(!ref.current){
-        //     return
-        // }
 
         iframe.current.srcdoc = html;
 
@@ -79,8 +74,11 @@ const App = () => {
     `;
 
     return <div>
-        <CodeEditor/>
-                <textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
+                <CodeEditor 
+                    initialValue='const a = 1'
+                    onChange={(value) => setInput(value)}
+                />
+                <textarea value={input} onChange={(e) => setInput(e.target.value)}></textarea>
                 <div>
                     <button onClick={onClick}>Submit</button>
                 </div>
