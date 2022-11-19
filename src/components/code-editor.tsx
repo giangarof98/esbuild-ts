@@ -1,4 +1,6 @@
-import Editor from "@monaco-editor/react";
+import MonacoEditor, {EditorDidMount} from "@monaco-editor/react";
+import prettier from 'prettier';
+import parser from 'prettier/parser-babel';
 
 interface CodeEditorProps {
     initialValue: string;
@@ -7,29 +9,39 @@ interface CodeEditorProps {
 
 const CodeEditor: React.FC<CodeEditorProps> = ({onChange, initialValue}) => {    
 
-    const onEditorMount=(getValue: () => string, monacoEditor: any) => {
-        monacoEditor.onDidChangeModelContent(() => {
-            onChange(getValue())
-        }) 
+    const onEditorMount: EditorDidMount =(getValue, monacoEditor) => {
+        monacoEditor.onDidChangeModelContent(() => {onChange(getValue())});
+        monacoEditor.getModel()?.updateOptions({ tabSize: 2 })
+        
+    }
+
+    const onFormatClick = () => {
 
     }
-    return <Editor
-        editorDidMount={onEditorMount}
-        value={initialValue} 
-        language="javascript" 
-        theme="dark" 
-        height='400px' 
-        options={{
-            wordWrap: 'on',
-            minimap: {enabled: false},
-            showUnused: false,
-            folding: false,
-            lineNumbersMinChars:3,
-            fontSize:16,
-            scrollBeyondLastLine: false,
-            automaticLayout: true,
-            
-        }}  /> 
+
+    return (
+        <div>
+            <button onClick={onFormatClick}>Format</button>
+            <MonacoEditor
+                editorDidMount={onEditorMount}
+                value={initialValue} 
+                language="javascript" 
+                theme="dark" 
+                height='400px' 
+                options={{
+                    wordWrap: 'on',
+                    minimap: {enabled: false},
+                    showUnused: false,
+                    folding: false,
+                    lineNumbersMinChars:3,
+                    fontSize:16,
+                    scrollBeyondLastLine: false,
+                    automaticLayout: true,
+                    
+                }}  /> 
+        </div>
+    
+    )
       
 };
 
