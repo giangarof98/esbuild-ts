@@ -3,10 +3,8 @@ import ReactDOM from "react-dom/client";
 import CodeCell from './components/code-cell';
 
 const App = () => {
-    
 
     return <div>
-                <CodeCell/>
                 <CodeCell/>
             </div>
 };
