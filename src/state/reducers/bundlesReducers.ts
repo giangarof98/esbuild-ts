@@ -7,7 +7,7 @@ interface BundleState {
         loading: boolean;
         code: string;
         err: string;
-    }
+    } | undefined;
 }
 
 const initialState: BundleState = {}
@@ -20,6 +20,7 @@ const reducer = produce((state: BundleState = initialState, action: Action): Bun
                 code: '',
                 err: ''
             }
+
             return state;
         case ActionType.BUNDLE_COMPLETE:
             state[action.payload.cellId] = {
