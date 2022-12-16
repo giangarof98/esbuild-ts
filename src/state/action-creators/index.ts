@@ -6,8 +6,6 @@ import {
         DeleteCellAction, 
         UpdateCellAction, 
         InsertCellAfterAction,
-        BundleStartAction,
-        BundleCompleteAction 
     } from "../actions";
 import { Direction } from "../actions";
 import { Dispatch } from "redux";
